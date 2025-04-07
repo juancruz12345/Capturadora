@@ -2,20 +2,25 @@ import { createFFmpeg, fetchFile } from '@ffmpeg/ffmpeg';
 import { useRef } from 'react';
 
 export function useCapturadora(setShowControls, setLoading) {
+
+
+  ///DESARROLLO///////
   /*const ffmpeg = createFFmpeg({
     log: true,
     corePath: 'https://cdn.jsdelivr.net/npm/@ffmpeg/core@0.10.0/dist/ffmpeg-core.js',
     wasmPath: 'https://cdn.jsdelivr.net/npm/@ffmpeg/core@0.10.0/dist/ffmpeg-core.wasm',
-    ///threadSupport: false ///en desasrrollo debe estar en false para desabilitar multihilo
-     worker: false // 👈 evita usar SharedArrayBuffer
-  });*/
-
-  const ffmpeg = createFFmpeg({
-    log: true,
-    corePath: 'https://cdn.jsdelivr.net/npm/@ffmpeg/core@0.11.1/dist/ffmpeg-core.js',
-    wasmPath: 'https://cdn.jsdelivr.net/npm/@ffmpeg/core@0.11.1/dist/ffmpeg-core.wasm',
-    worker: false,
-  });
+    threadSupport: false ///en desasrrollo debe estar en false para desabilitar multihilo
+     
+  })*/
+ 
+    const ffmpeg = createFFmpeg({
+      log: true,
+      corePath: 'https://cdn.jsdelivr.net/npm/@ffmpeg/core@0.10.1/dist/ffmpeg-core.js',
+      wasmPath: 'https://cdn.jsdelivr.net/npm/@ffmpeg/core@0.10.1/dist/ffmpeg-core.wasm',
+      worker: false
+    });
+    
+    
   
 
 

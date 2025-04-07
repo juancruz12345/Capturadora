@@ -15,9 +15,9 @@ export function useCapturadora(setShowControls, setLoading) {
  
     const ffmpeg = createFFmpeg({
       log: true,
-      corePath: '/ffmpeg/ffmpeg-core.js',
-      wasmPath: '/ffmpeg/ffmpeg-core.wasm',
-      workerPath: '/ffmpeg/ffmpeg-core.worker.js', // si usás workers
+      corePath: '/ffmpeg-core.js',
+      wasmPath: '/ffmpeg-core.wasm',
+      workerPath: '/ffmpeg-core.worker.js', // si usás workers
       
     });
     

@@ -12,10 +12,11 @@ export function useCapturadora(setShowControls, setLoading) {
 
   const ffmpeg = createFFmpeg({
     log: true,
-    corePath: 'https://unpkg.com/@ffmpeg/core-st@0.10.1/dist/ffmpeg-core.js',
-    wasmPath: 'https://unpkg.com/@ffmpeg/core-st@0.10.1/dist/ffmpeg-core.wasm',
-    worker: false
+    corePath: 'https://cdn.jsdelivr.net/npm/@ffmpeg/core@0.11.1/dist/ffmpeg-core.js',
+    wasmPath: 'https://cdn.jsdelivr.net/npm/@ffmpeg/core@0.11.1/dist/ffmpeg-core.wasm',
+    worker: false,
   });
+  
 
 
   const recordedChunks = useRef([]);

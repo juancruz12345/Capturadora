@@ -7,6 +7,7 @@ export function useCapturadora(setShowControls, setLoading) {
     corePath: 'https://cdn.jsdelivr.net/npm/@ffmpeg/core@0.10.0/dist/ffmpeg-core.js',
     wasmPath: 'https://cdn.jsdelivr.net/npm/@ffmpeg/core@0.10.0/dist/ffmpeg-core.wasm',
     ///threadSupport: false ///en desasrrollo debe estar en false para desabilitar multihilo
+     worker: false // 👈 evita usar SharedArrayBuffer
   });
 
   const recordedChunks = useRef([]);

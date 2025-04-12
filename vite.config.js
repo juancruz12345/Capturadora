@@ -10,7 +10,12 @@ export default defineConfig({
   build: {
     assetsInlineLimit: 0, // Para evitar inlining de WASM
   },
-  
+  preview: { // Para probar producción localmente
+    headers: {
+      'Cross-Origin-Opener-Policy': 'same-origin',
+      'Cross-Origin-Embedder-Policy': 'require-corp'
+    }
+  },
   
   plugins: [react(),wasm()],
 })

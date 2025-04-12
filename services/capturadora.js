@@ -8,16 +8,6 @@ import { createFFmpeg, fetchFile } from '@ffmpeg/ffmpeg';
 
 export function useCapturadora(setShowControls, setLoading) {
 
-
-  ///DESARROLLO///////
-  /*const ffmpeg = createFFmpeg({
-    log: true,
-    corePath: 'https://cdn.jsdelivr.net/npm/@ffmpeg/core@0.10.0/dist/ffmpeg-core.js',
-    wasmPath: 'https://cdn.jsdelivr.net/npm/@ffmpeg/core@0.10.0/dist/ffmpeg-core.wasm',
-    threadSupport: false ///en desasrrollo debe estar en false para desabilitar multihilo
-     
-  })*/
- 
   const recordedChunks = useRef([]);
   const videoBlobRef = useRef(null);
 
@@ -99,13 +89,13 @@ export function useCapturadora(setShowControls, setLoading) {
 
       ///await initFFmpeg();
       if (!ffmpegRef.current) {
-        const corePath = new URL('@ffmpeg/core/dist/ffmpeg-core.js', import.meta.url).href;
-const wasmPath = new URL('@ffmpeg/core/dist/ffmpeg-core.wasm', import.meta.url).href;
+    
         
         ffmpegRef.current = createFFmpeg({
-          log: true,
-  corePath,
-  wasmPath
+          log: import.meta.env.DEV,
+          corePath: '/ffmpeg/ffmpeg-core.js',
+          wasmPath: '/ffmpeg/ffmpeg-core.wasm',
+          
         });
         await ffmpegRef.current.load();
       }

@@ -2,7 +2,7 @@
 import { useRef } from 'react';
 
 import { createFFmpeg, fetchFile } from '@ffmpeg/ffmpeg';
-
+import wasmBinary from '@ffmpeg/core/dist/ffmpeg-core.wasm?url';
 
 
 
@@ -94,7 +94,7 @@ export function useCapturadora(setShowControls, setLoading) {
         ffmpegRef.current = createFFmpeg({
           log: true,
           corePath: '/ffmpeg/ffmpeg-core.js',
-          wasmPath: '/ffmpeg/ffmpeg-core.wasm',
+          wasmBinary,
           threadSupport: false 
          
         });

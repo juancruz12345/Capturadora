@@ -99,10 +99,13 @@ export function useCapturadora(setShowControls, setLoading) {
 
       ///await initFFmpeg();
       if (!ffmpegRef.current) {
+        const corePath = new URL('@ffmpeg/core/dist/ffmpeg-core.js', import.meta.url).href;
+const wasmPath = new URL('@ffmpeg/core/dist/ffmpeg-core.wasm', import.meta.url).href;
         
         ffmpegRef.current = createFFmpeg({
           log: true,
-          corePath: 'https://unpkg.com/@ffmpeg/core@0.11.0/dist/ffmpeg-core.js',
+  corePath,
+  wasmPath
         });
         await ffmpegRef.current.load();
       }

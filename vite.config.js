@@ -1,25 +1,16 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react-swc'
+import wasm from 'vite-plugin-wasm'
 
 // https://vite.dev/config/
 export default defineConfig({
-  server: {
-    headers: {
-      'Cross-Origin-Opener-Policy': 'same-origin',
-      'Cross-Origin-Embedder-Policy': 'require-corp'
-    },
-    // Necesario para Firefox en localhost
-    cors: true,
-    strictPort: true,
-    proxy: {
-      "/ffmpeg-core": {
-        target: "https://unpkg.com",
-        changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/ffmpeg-core/, ""),
-      },
-    },
+  optimizeDeps: {
+    exclude: ['@ffmpeg/ffmpeg', '@ffmpeg/core'],
   },
- 
+  build: {
+    assetsInlineLimit: 0, // Para evitar inlining de WASM
+  },
   
-  plugins: [react()],
+  
+  plugins: [react(),wasm()],
 })

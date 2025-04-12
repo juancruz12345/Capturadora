@@ -1,5 +1,10 @@
-import { createFFmpeg, fetchFile } from '@ffmpeg/ffmpeg';
+
 import { useRef } from 'react';
+
+import { createFFmpeg, fetchFile } from '@ffmpeg/ffmpeg';
+
+
+
 
 export function useCapturadora(setShowControls, setLoading) {
 
@@ -13,42 +18,28 @@ export function useCapturadora(setShowControls, setLoading) {
      
   })*/
  
-    const ffmpeg = createFFmpeg({
-      log: true,
-      corePath: '/ffmpeg-core.js',
-      wasmPath: '/ffmpeg-core.wasm',
-      //workerPath: '/ffmpeg-core.worker.js', // si usás workers
-      worker: false
-      
-    });
-    
-    
-    
-  
-
-
   const recordedChunks = useRef([]);
   const videoBlobRef = useRef(null);
-  
+
   let mediaRecorder;
   let captureStream = null;
   let newWindow;
   let videoElement;
 
-  async function initFFmpeg() {
-    if (!ffmpeg.isLoaded()) {
-      await ffmpeg.load();
-      
-    }
-  }
 
+  const ffmpegRef = useRef(null);
+
+
+  
   async function startCapture() {
     try {
+     //await initFFmpeg()
       captureStream = await navigator.mediaDevices.getDisplayMedia({
         video: true,
         audio: true
       });
       startRecording(captureStream);
+      
     } catch (err) {
       console.error(`Error: ${err}`);
     }
@@ -106,31 +97,42 @@ export function useCapturadora(setShowControls, setLoading) {
       const inputName = 'input.webm';
       const outputName = `recorte_${startTime}-${endTime}.webm`;
 
-      await initFFmpeg();
+      ///await initFFmpeg();
+      if (!ffmpegRef.current) {
+        
+        ffmpegRef.current = createFFmpeg({
+          log: true,
+          corePath: 'https://unpkg.com/@ffmpeg/core@0.11.0/dist/ffmpeg-core.js',
+        });
+        await ffmpegRef.current.load();
+      }
       
-      ffmpeg.FS('writeFile', inputName, await fetchFile(videoBlob));
+      
+      ffmpegRef.current.FS('writeFile', inputName, await fetchFile(videoBlob));
 
-      await ffmpeg.run(
+      await ffmpegRef.current.run(
+        '-ss', String(startTime),  // ¡Colocado antes de -i para búsqueda rápida!
         '-i', inputName,
-        '-ss', startTime.toString(),
-        "-to", endTime.toString(),
-        '-c:v', 'libvpx',
-        '-c:a', 'libvorbis',
+        '-to', String(endTime - startTime),  // Duración en lugar de tiempo final
+        '-c:v', 'copy',
+        '-c:a', 'copy',
         outputName
       );
       
-      const data = ffmpeg.FS('readFile', outputName);
-      const blob = new Blob([data.buffer], { type: 'video/webm' });
-      const url = URL.createObjectURL(blob);
+      // Leer el archivo de salida con FS
+      const output= ffmpegRef.current.FS('readFile', outputName);
+      const outputBlob = new Blob([output.buffer], { type: 'video/webm' });
+      const outputUrl = URL.createObjectURL(outputBlob);
+      
 
       const a = document.createElement('a');
-      a.href = url;
+      a.href = outputUrl;
       a.download = outputName;
       document.body.appendChild(a);
       a.click();
       document.body.removeChild(a);
 
-      URL.revokeObjectURL(url);
+      URL.revokeObjectURL(outputUrl);
     } catch (error) {
       console.error('Error en cutVideo:', error);
       alert('Error al recortar el video.');

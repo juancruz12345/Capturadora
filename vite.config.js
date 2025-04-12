@@ -10,14 +10,16 @@ export default defineConfig({
     },
     // Necesario para Firefox en localhost
     cors: true,
-    strictPort: true
+    strictPort: true,
+    proxy: {
+      "/ffmpeg-core": {
+        target: "https://unpkg.com",
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/ffmpeg-core/, ""),
+      },
+    },
   },
-  optimizeDeps: {
-    include: [
-      '@ffmpeg/ffmpeg',
-     
-    ]
-  }
-  ,
+ 
+  
   plugins: [react()],
 })

@@ -8,14 +8,20 @@ export default defineConfig({
     exclude: ['@ffmpeg/ffmpeg', '@ffmpeg/core'],
   },
   build: {
-    assetsInlineLimit: 0, // Para evitar inlining de WASM
+    assetsInlineLimit: 0 // Desactiva inlining de WASM
   },
-  preview: { // Para probar producción localmente
+  server: {
     headers: {
       'Cross-Origin-Opener-Policy': 'same-origin',
       'Cross-Origin-Embedder-Policy': 'require-corp'
     }
   },
+  /*preview: { // Para probar producción localmente
+    headers: {
+      'Cross-Origin-Opener-Policy': 'same-origin',
+      'Cross-Origin-Embedder-Policy': 'require-corp'
+    }
+  },*/
   /*server: { // Para desarrollo
     headers: {
       'Cross-Origin-Opener-Policy': 'same-origin',

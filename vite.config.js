@@ -16,6 +16,12 @@ export default defineConfig({
       'Cross-Origin-Embedder-Policy': 'require-corp'
     }
   },
+  /*server: { // Para desarrollo
+    headers: {
+      'Cross-Origin-Opener-Policy': 'same-origin',
+      'Cross-Origin-Embedder-Policy': 'require-corp'
+    }
+  },*/
   
   plugins: [react(),wasm()],
 })

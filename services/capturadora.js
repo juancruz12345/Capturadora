@@ -86,18 +86,20 @@ export function useCapturadora(setShowControls, setLoading) {
 
       const inputName = 'input.webm';
       const outputName = `recorte_${startTime}-${endTime}.webm`;
-
+      console.log(ffmpegRef.current)
       ///await initFFmpeg();
       if (!ffmpegRef.current) {
     
-        
+        console.log('cargando ffmpeg')
         ffmpegRef.current = createFFmpeg({
-          log: import.meta.env.DEV,
+          log: true,
           corePath: '/ffmpeg/ffmpeg-core.js',
           wasmPath: '/ffmpeg/ffmpeg-core.wasm',
-          
+          threadSupport: false 
+         
         });
         await ffmpegRef.current.load();
+        console.log('cargao')
       }
       
       
